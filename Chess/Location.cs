@@ -18,8 +18,7 @@ namespace Chess
 
         public override bool Equals(object obj)
 		{
-			var other = obj as Location;
-			if (other == null) return false;
+			if (!(obj is Location other)) return false;
 			return other.X == X && other.Y == Y;
 		}
 

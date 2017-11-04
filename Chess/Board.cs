@@ -46,10 +46,11 @@ namespace Chess
 
 	public class TemporaryPieceMove : IDisposable
 	{
-		private readonly Board board;
+		public readonly Board board;
 		private readonly Location from;
 		private readonly Piece oldDestinationPiece;
 		private readonly Location to;
+		private readonly Piece deletedPiece;
 
 		public TemporaryPieceMove(Board board, Location from, Location to, Piece oldDestinationPiece)
 		{
@@ -57,12 +58,19 @@ namespace Chess
 			this.from = from;
 			this.to = to;
 			this.oldDestinationPiece = oldDestinationPiece;
+			this.deletedPiece = board.GetPiece(to);
+		}
+
+		public void Move()
+		{
+			board.Set(from, null);
+			board.Set(to, oldDestinationPiece);
 		}
 
 		public void Undo()
 		{
-			board.Set(from, board.GetPiece(to));
-			board.Set(to, oldDestinationPiece);
+			board.Set(from, oldDestinationPiece);
+			board.Set(to, deletedPiece);
 		}
 
 	    public void Dispose()

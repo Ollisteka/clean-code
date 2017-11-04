@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using NUnit.Framework;
 
 namespace ControlDigit
@@ -26,9 +28,39 @@ namespace ControlDigit
 			return result;
 		}
 
+		private static void GetOddAndEvenDigits(long number, List<int> oddDigits, List<int> evenDigits)
+		{
+			var isOdd = true;
+			while (number > 0)
+			{
+				int digit = (int)(number % 10);
+				if (isOdd)
+					oddDigits.Add(digit);
+				else evenDigits.Add(digit);
+				isOdd = !isOdd;
+				number /= 10;
+			}
+		}
+
+		public static List<int> FetchDigits(long number, Func<long, int> extractDigit)
+		{
+			var result = new List<int>();
+			while (number > 0)
+			{
+				result.Add(extractDigit(number));
+				number /= 10;
+			}
+			return result;
+		}
+
 		public static int ControlDigit2(this long number)
 		{
-			throw new NotImplementedException();
+			
+			var oddDigits = new List<int>();
+			var evenDigits = new List<int>();
+			GetOddAndEvenDigits(number, oddDigits, evenDigits);
+			var sum = oddDigits.Sum() + evenDigits.Sum(x => x * 3) % 11;
+			return sum == 10 ? 1 : sum;
 		}
 	}
 
@@ -37,6 +69,7 @@ namespace ControlDigit
 	{
 		[TestCase(0, ExpectedResult = 0)]
 		[TestCase(1, ExpectedResult = 1)]
+		[TestCase(33, ExpectedResult = 1)]
 		[TestCase(2, ExpectedResult = 2)]
 		[TestCase(9, ExpectedResult = 9)]
 		[TestCase(10, ExpectedResult = 3)]
