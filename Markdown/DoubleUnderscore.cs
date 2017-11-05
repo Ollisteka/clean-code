@@ -13,8 +13,8 @@ namespace Markdown
 
 		private readonly Dictionary<bool, string> tags = new Dictionary<bool, string>
 		{
-			{true, "<b>"},
-			{false, "</b>"}
+			{true, "<strong>"},
+			{false, "</strong>"}
 		};
 
 		public DoubleUnderscore(string markdown)
@@ -56,8 +56,8 @@ namespace Markdown
 				result.Remove(entry.Key + offset, 2);
 				result.Insert(entry.Key + offset, tags[entry.Value]);
 				if (entry.Value)
-					offset += 1;
-				else offset += 2;
+					offset += 6;
+				else offset += 7;
 			}
 			foreach (var position in screens)
 			{
