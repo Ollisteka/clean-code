@@ -42,28 +42,14 @@ namespace Markdown
 			parser.Screens.ShouldAllBeEquivalentTo(new List<int> {0, 9});
 		}
 
-		[Test]
-		public void TransformCorrectUndercores()
+		[TestCase("__Hello,__ __world__", ExpectedResult = "<strong>Hello,</strong> <strong>world</strong>", TestName = "Two Pairs in a Row")]
+		[TestCase(@"\__Hello,\__ world", ExpectedResult = "__Hello,__ world", TestName = "Screened Underscores")]
+		[TestCase("__Hello, world__", ExpectedResult = "<strong>Hello, world</strong>", TestName = "Correct Underscores")]
+		public string Transform(string markdown)
 		{
-			var parser = new DoubleUnderscore("__Hello, world__");
+			var parser = new DoubleUnderscore(markdown);
 			parser.FillEntries();
-			parser.Transform().Should().Be("<b>Hello, world</b>");
-		}
-
-		[Test]
-		public void TransformScreenedUnderscores()
-		{
-			var parser = new DoubleUnderscore(@"\__Hello,\__ world");
-			parser.FillEntries();
-			parser.Transform().Should().Be("__Hello,__ world");
-		}
-
-		[Test]
-		public void TransformTwoPairsInRow()
-		{
-			var parser = new DoubleUnderscore("__Hello,__ __world__");
-			parser.FillEntries();
-			parser.Transform().Should().Be("<b>Hello,</b> <b>world</b>");
+			return parser.Transform();
 		}
 	}
 }
