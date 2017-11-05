@@ -52,9 +52,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DoubleUnderscore.cs" />
+    <Compile Include="DoubleUnderscore_Should.cs" />
+    <Compile Include="ITransformable.cs" />
     <Compile Include="Md.cs" />
     <Compile Include="Md_Should.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="SingleUnderscore.cs" />
+    <Compile Include="SingleUnderscore_Should.cs" />
+    <Compile Include="StringExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
