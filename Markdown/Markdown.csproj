@@ -54,6 +54,7 @@
   <ItemGroup>
     <Compile Include="DoubleUnderscore.cs" />
     <Compile Include="DoubleUnderscore_Should.cs" />
+    <Compile Include="Headers.cs" />
     <Compile Include="ITransformable.cs" />
     <Compile Include="Md.cs" />
     <Compile Include="Md_Should.cs" />

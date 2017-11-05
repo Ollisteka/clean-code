@@ -15,5 +15,12 @@
 			parser.FillEntries();
 			return parser.Transform();
 		}
+
+		public static string ParseHeaders(this string markdown)
+		{
+			var parser = new Headers(markdown);
+			parser.FillEntries();
+			return parser.Transform();
+		}
 	}
 }
