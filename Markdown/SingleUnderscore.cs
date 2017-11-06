@@ -12,7 +12,7 @@ namespace Markdown
 
 		private readonly List<int> screens = new List<int>();
 
-		private readonly Dictionary<bool, string> tags = new Dictionary<bool, string>
+		public static readonly Dictionary<bool, string> Tags = new Dictionary<bool, string>
 		{
 			{true, "<em>"},
 			{false, "</em>"}
@@ -49,17 +49,15 @@ namespace Markdown
 				if (markdown[i] != '_')
 					continue;
 				// check for double underscores
-				if (entries.ContainsKey(i - 1))
+				if (i+1<markdown.Length && markdown[i+1] == '_')
 				{
-					entries.Remove(i - 1);
-					opening = !opening;
+					i += 1;
 					continue;
 				}
 				// check for screened underscores
 				if (i >= 1 && markdown[i - 1] == '\\')
 				{
 					screens.Add(i - 1);
-					//opening = !opening;
 					continue;
 				}
 				// check for space after opening underscore
@@ -97,7 +95,7 @@ namespace Markdown
 			foreach (var entry in Entries)
 			{
 				result.Remove(entry.Key + offset, 1);
-				result.Insert(entry.Key + offset, tags[entry.Value]);
+				result.Insert(entry.Key + offset, Tags[entry.Value]);
 				if (entry.Value)
 					offset += 3;
 				else offset += 4;

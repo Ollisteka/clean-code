@@ -28,10 +28,11 @@ namespace Markdown
 
 		[TestCase("_Hello, world _", ExpectedResult = true, TestName = "Space Before Second Underscore")]
 		[TestCase("_ Hello, world_", ExpectedResult = true, TestName = "Space After First Underscore")]
-		[TestCase(@"\_Hello, world\_)", ExpectedResult = true, TestName = "Screened Underscores")]
+		[TestCase(@"\_Hello, world\_", ExpectedResult = true, TestName = "Screened Underscores")]
 		[TestCase("Hello, world_", ExpectedResult = true, TestName = "One Underscore")]
-		[TestCase("__Hello, world__)", ExpectedResult = true, TestName = "Double Underscores")]
+		[TestCase("__Hello, world__", ExpectedResult = true, TestName = "Double Underscores")]
 		[TestCase("_1_)", ExpectedResult = true, TestName = "Numbers")]
+		[TestCase("_abc __ a", ExpectedResult = true, TestName = "One single One Double")]
 		public bool NoCorrectUnderscores(string markdown)
 		{
 			parser = new SingleUnderscore(markdown);
