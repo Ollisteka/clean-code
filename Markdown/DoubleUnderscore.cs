@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Text;
 
 namespace Markdown
@@ -8,7 +9,6 @@ namespace Markdown
 		//ключ - позиция, значение - открывающий ли тег
 		private readonly Dictionary<int, bool> entries = new Dictionary<int, bool>();
 
-		private readonly string markdown;
 		private readonly List<int> screens = new List<int>();
 
 		private readonly Dictionary<bool, string> tags = new Dictionary<bool, string>
@@ -17,6 +17,12 @@ namespace Markdown
 			{false, "</strong>"}
 		};
 
+		private string markdown;
+
+		public DoubleUnderscore()
+		{
+		}
+
 		public DoubleUnderscore(string markdown)
 		{
 			this.markdown = markdown;
@@ -24,6 +30,14 @@ namespace Markdown
 
 		public IReadOnlyList<int> Screens => screens;
 		public IReadOnlyDictionary<int, bool> Entries => entries;
+
+		public void SetMarkdown(string markdownValue)
+		{
+			if (markdown is null)
+				markdown = markdownValue;
+			else
+				throw new Exception("The markdownValue value was set in constructor!");
+		}
 
 		public void FillEntries()
 		{

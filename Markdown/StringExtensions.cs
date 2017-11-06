@@ -2,23 +2,9 @@
 {
 	public static class StringExtensions
 	{
-		public static string ParseDoubleUnderscores(this string markdown)
+		public static string Parse(this string markdown, ITransformable parser)
 		{
-			var parser = new DoubleUnderscore(markdown);
-			parser.FillEntries();
-			return parser.Transform();
-		}
-
-		public static string ParseSingleUnderscores(this string markdown)
-		{
-			var parser = new SingleUnderscore(markdown);
-			parser.FillEntries();
-			return parser.Transform();
-		}
-
-		public static string ParseHeaders(this string markdown)
-		{
-			var parser = new Headers(markdown);
+			parser.SetMarkdown(markdown);
 			parser.FillEntries();
 			return parser.Transform();
 		}
