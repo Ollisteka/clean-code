@@ -27,6 +27,10 @@ namespace Markdown
 			TestName = "Not header symbol")]
 		[TestCase("This is not a header---", ExpectedResult = "This is not a header---",
 			TestName = "No new line for header")]
+		[TestCase("__Hello _abc_ world__", ExpectedResult = "<strong>Hello <em>abc</em> world</strong>",
+			TestName = "Parse single inside double")]
+		[TestCase("_Hello __abc__ world_", ExpectedResult = "<em>Hello __abc__ world</em>",
+			TestName = "Do not parse double inside singler")]
 		public string RenderToHtml(string markdown)
 		{
 			return MdRender.RenderToHtml(markdown);

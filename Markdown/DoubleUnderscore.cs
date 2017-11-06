@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace Markdown
 {
@@ -54,11 +56,11 @@ namespace Markdown
 					continue;
 				}
 				if (i + 1 >= markdown.Length || markdown[i] != '_' || markdown[i + 1] != '_') continue;
-
 				entries.Add(i, opening);
 				opening = !opening;
 				i += 1;
 			}
+			CheckForDoubleUnderscoresInsideSingle();
 		}
 
 		public string Transform()
@@ -79,6 +81,31 @@ namespace Markdown
 				offset -= 1;
 			}
 			return result.ToString();
+		}
+
+		private void CheckForDoubleUnderscoresInsideSingle()
+		{
+			var openingTag = SingleUnderscore.Tags[true];
+			var closingTag = SingleUnderscore.Tags[false];
+			var regexp = new Regex(openingTag + ".*" + closingTag);
+			var results = regexp.Matches(markdown);
+			if (results.Count == 0)
+				return;
+
+			for (var position = 0; position < entries.Keys.Count; position += 2)
+			{
+				var openingUnderscoreIndex = entries.ElementAt(position).Key;
+				var closingUnderscoreIndex = entries.ElementAt(position + 1).Key;
+				foreach (var result in results)
+				{
+					var match = result as Match;
+					var startIndex = match.Index;
+					var lastIndex = startIndex + match.Length - 1;
+					if (startIndex > openingUnderscoreIndex || lastIndex < closingUnderscoreIndex) continue;
+					entries.Remove(openingUnderscoreIndex);
+					entries.Remove(closingUnderscoreIndex);
+				}
+			}
 		}
 	}
 }
