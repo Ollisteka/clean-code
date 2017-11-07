@@ -10,6 +10,8 @@ namespace Markdown
 			var result = markdown.Split('\n');
 			for (var i = 0; i < result.Length; i++)
 			{
+				if (string.IsNullOrEmpty(result[i]))
+					continue;
 				result[i] = ParseLine(result[i]);
 				if (Headers.OpeningTags.ContainsKey(result[i]))
 					result[i - 1] = Headers.OpeningTags[result[i]] + result[i - 1];

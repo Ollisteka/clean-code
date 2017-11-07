@@ -43,16 +43,19 @@ namespace Markdown
 					continue;
 				}
 				// check for screened underscores
-				if (i >= 1 && Markdown[i - 1] == '\\')
+				if (i >= 1 && Markdown[i - 1] == '\\' &&((i+1<Markdown.Length && Markdown[i+1]!='_') || i==Markdown.Length-1))
 				{
 					Screens.Add(i - 1);
 					continue;
 				}
+				// check for space before closing underscore
+				if (opening == TagType.Closing && Markdown[i - 1] == ' ')
+				{
+					Entries.Remove(Entries.Keys.Max());
+					opening = TagType.Opening;
+				}
 				// check for space after opening underscore
 				if (opening == TagType.Opening && i + 1 < Markdown.Length && Markdown[i + 1] == ' ')
-					continue;
-				// check for space before closing iunderscore
-				if (opening == TagType.Closing && Markdown[i - 1] == ' ')
 					continue;
 				// check for numbers inside
 				if (opening == TagType.Closing)

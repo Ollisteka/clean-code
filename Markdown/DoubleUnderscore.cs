@@ -49,6 +49,8 @@ namespace Markdown
 				opening = (TagType) ((int) (opening + 1) % 2);
 				i += 1;
 			}
+			if (Entries.Count % 2 != 0)
+				Entries.Remove(Entries.Keys.Max());
 			CheckForDoubleUnderscoresInsideSingle();
 		}
 

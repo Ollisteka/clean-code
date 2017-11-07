@@ -20,6 +20,8 @@ namespace Markdown
 			TestName = "Screened Underscores")]
 		[TestCase(@"\_Hello,\_ _world_", ExpectedResult = "_Hello,_ <em>world</em>", 
 			TestName = "Screened and Not Screened Underscores")]
+		[TestCase(@"\_Hello\_ \__abc\__", ExpectedResult = @"_Hello_ \__abc\__",
+			TestName = "Unscreen single, do not touch double")]
 		public string Transform(string markdown)
 		{
 			parser = new SingleUnderscore(markdown);

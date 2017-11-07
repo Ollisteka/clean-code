@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Markdown
@@ -30,15 +31,27 @@ namespace Markdown
 		{
 		}
 
+		private int offset;
 		public virtual string Transform()
 		{
 			var result = new StringBuilder(Markdown);
-			var offset = 0;
-			foreach (var position in Screens)
-			{
-				result.Remove(position + offset, 1);
-				offset -= 1;
-			}
+			if (Screens.Any())
+				if (Screens.First() <= Entries.Keys.FirstOrDefault())
+				{
+					DeleteScreens(result);
+					ReplaceTags(result);
+				}
+				else
+				{
+					ReplaceTags(result);
+					DeleteScreens(result);
+				}
+			else ReplaceTags(result);
+			return result.ToString();
+		}
+
+		private void ReplaceTags(StringBuilder result)
+		{
 			foreach (var entry in Entries)
 			{
 				result.Remove(entry.Key + offset, SpecialSymbol.Length);
@@ -47,7 +60,15 @@ namespace Markdown
 					offset += Tags[TagType.Opening].Length - SpecialSymbol.Length;
 				else offset += Tags[TagType.Closing].Length - SpecialSymbol.Length;
 			}
-			return result.ToString();
+		}
+
+		private void DeleteScreens(StringBuilder result)
+		{
+			foreach (var position in Screens)
+			{
+				result.Remove(position + offset, 1);
+				offset -= 1;
+			}
 		}
 	}
 }
