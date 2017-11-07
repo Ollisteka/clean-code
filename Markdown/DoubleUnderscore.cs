@@ -9,14 +9,14 @@ namespace Markdown
 	internal class DoubleUnderscore : ITransformable
 	{
 		//ключ - позиция, значение - открывающий ли тег
-		private readonly Dictionary<int, bool> entries = new Dictionary<int, bool>();
+		private readonly Dictionary<int, TagType> entries = new Dictionary<int, TagType>();
 
 		private readonly List<int> screens = new List<int>();
 
-		private readonly Dictionary<bool, string> tags = new Dictionary<bool, string>
+		private readonly Dictionary<TagType, string> tags = new Dictionary<TagType, string>
 		{
-			{true, "<strong>"},
-			{false, "</strong>"}
+			{TagType.Opening, "<strong>"},
+			{TagType.Closing, "</strong>"}
 		};
 
 		private string markdown;
@@ -31,7 +31,7 @@ namespace Markdown
 		}
 
 		public IReadOnlyList<int> Screens => screens;
-		public IReadOnlyDictionary<int, bool> Entries => entries;
+		public IReadOnlyDictionary<int, TagType> Entries => entries;
 
 		public void SetMarkdown(string markdownValue)
 		{
@@ -43,7 +43,7 @@ namespace Markdown
 
 		public void FillEntries()
 		{
-			var opening = true;
+			var opening = TagType.Opening;
 			for (var i = 0; i < markdown.Length; i += 1)
 			{
 				if (i + 2 < markdown.Length
@@ -57,7 +57,7 @@ namespace Markdown
 				}
 				if (i + 1 >= markdown.Length || markdown[i] != '_' || markdown[i + 1] != '_') continue;
 				entries.Add(i, opening);
-				opening = !opening;
+				opening = (TagType) ((int)(opening+1) % 2);
 				i += 1;
 			}
 			CheckForDoubleUnderscoresInsideSingle();
@@ -71,7 +71,7 @@ namespace Markdown
 			{
 				result.Remove(entry.Key + offset, 2);
 				result.Insert(entry.Key + offset, tags[entry.Value]);
-				if (entry.Value)
+				if (entry.Value == TagType.Opening)
 					offset += 6;
 				else offset += 7;
 			}
@@ -85,8 +85,8 @@ namespace Markdown
 
 		private void CheckForDoubleUnderscoresInsideSingle()
 		{
-			var openingTag = SingleUnderscore.Tags[true];
-			var closingTag = SingleUnderscore.Tags[false];
+			var openingTag = SingleUnderscore.Tags[TagType.Opening];
+			var closingTag = SingleUnderscore.Tags[TagType.Closing];
 			var regexp = new Regex(openingTag + ".*" + closingTag);
 			var results = regexp.Matches(markdown);
 			if (results.Count == 0)

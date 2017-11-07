@@ -8,14 +8,14 @@ namespace Markdown
 	public class SingleUnderscore : ITransformable
 	{
 		//ключ - позиция, значение - открывающий ли тег
-		private readonly Dictionary<int, bool> entries = new Dictionary<int, bool>();
+		private readonly Dictionary<int, TagType> entries = new Dictionary<int, TagType>();
 
 		private readonly List<int> screens = new List<int>();
 
-		public static readonly Dictionary<bool, string> Tags = new Dictionary<bool, string>
+		public static readonly Dictionary<TagType, string> Tags = new Dictionary<TagType, string>
 		{
-			{true, "<em>"},
-			{false, "</em>"}
+			{TagType.Opening, "<em>"},
+			{TagType.Closing, "</em>"}
 		};
 
 		private string markdown;
@@ -30,7 +30,7 @@ namespace Markdown
 		}
 
 		public IReadOnlyList<int> Screens => screens;
-		public IReadOnlyDictionary<int, bool> Entries => entries;
+		public IReadOnlyDictionary<int, TagType> Entries => entries;
 
 
 		public void SetMarkdown(string markdownValue)
@@ -43,7 +43,7 @@ namespace Markdown
 
 		public void FillEntries()
 		{
-			var opening = true;
+			var opening = TagType.Opening;
 			for (var i = 0; i < markdown.Length; i++)
 			{
 				if (markdown[i] != '_')
@@ -61,23 +61,23 @@ namespace Markdown
 					continue;
 				}
 				// check for space after opening underscore
-				if (opening && i + 1 < markdown.Length && markdown[i + 1] == ' ')
+				if (opening == TagType.Opening && i + 1 < markdown.Length && markdown[i + 1] == ' ')
 					continue;
 				// check for space before closing iunderscore
-				if (!opening && markdown[i - 1] == ' ')
+				if (opening == TagType.Closing && markdown[i - 1] == ' ')
 					continue;
 				// check for numbers inside
-				if (!opening)
+				if (opening == TagType.Closing)
 				{
 					var lastElement = entries.Keys.Max();
 					if (markdown.Substring(lastElement, i - lastElement).Any(char.IsDigit))
 					{
 						entries.Remove(lastElement);
-						opening = true;
+						opening = TagType.Opening;
 					}
 				}
 				entries.Add(i, opening);
-				opening = !opening;
+				opening = (TagType)((int)(opening + 1) % 2);
 			}
 			if (entries.Count % 2 != 0)
 				entries.Remove(entries.Keys.Max());
@@ -96,7 +96,7 @@ namespace Markdown
 			{
 				result.Remove(entry.Key + offset, 1);
 				result.Insert(entry.Key + offset, Tags[entry.Value]);
-				if (entry.Value)
+				if (entry.Value == TagType.Opening)
 					offset += 3;
 				else offset += 4;
 			}

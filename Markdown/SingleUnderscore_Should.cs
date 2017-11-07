@@ -54,10 +54,10 @@ namespace Markdown
 			parser = new SingleUnderscore(@"\_Hello,\_ _world_");
 			parser.FillEntries();
 			parser.Screens.ShouldAllBeEquivalentTo(new List<int> { 0, 8 });
-			parser.Entries.ShouldAllBeEquivalentTo(new Dictionary<int, bool>
+			parser.Entries.ShouldAllBeEquivalentTo(new Dictionary<int, TagType>
 			{
-				{11, true},
-				{17, false},
+				{11, TagType.Opening},
+				{17, TagType.Closing},
 			});
 		}
 
@@ -66,7 +66,11 @@ namespace Markdown
 		{
 			parser = new SingleUnderscore("_Hello, world_");
 			parser.FillEntries();
-			parser.Entries.ShouldAllBeEquivalentTo(new Dictionary<int, bool> {{0, true}, {13, false}});
+			parser.Entries.ShouldAllBeEquivalentTo(new Dictionary<int, TagType>
+			{
+				{0, TagType.Opening},
+				{13, TagType.Closing}
+			});
 		}
 
 		[Test]
@@ -74,12 +78,12 @@ namespace Markdown
 		{
 			parser = new SingleUnderscore("_Hello_, _world_");
 			parser.FillEntries();
-			parser.Entries.ShouldAllBeEquivalentTo(new Dictionary<int, bool>
+			parser.Entries.ShouldAllBeEquivalentTo(new Dictionary<int, TagType>
 			{
-				{0, true},
-				{6, false},
-				{9, true},
-				{15, false}
+				{0, TagType.Opening},
+				{6, TagType.Closing},
+				{9, TagType.Opening},
+				{15, TagType.Closing}
 			});
 		}
 
@@ -89,10 +93,10 @@ namespace Markdown
 		{
 			parser = new SingleUnderscore("__Hello, _world_)");
 			parser.FillEntries();
-			parser.Entries.ShouldAllBeEquivalentTo(new Dictionary<int, bool>
+			parser.Entries.ShouldAllBeEquivalentTo(new Dictionary<int, TagType>
 			{
-				{9, true},
-				{15, false}
+				{9, TagType.Opening},
+				{15, TagType.Closing}
 			});
 		}
 	}

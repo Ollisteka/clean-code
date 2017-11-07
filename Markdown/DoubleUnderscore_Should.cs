@@ -12,10 +12,10 @@ namespace Markdown
 		{
 			var parser = new DoubleUnderscore("__Hello, world__");
 			parser.FillEntries();
-			parser.Entries.ShouldAllBeEquivalentTo(new Dictionary<int, bool>
+			parser.Entries.ShouldAllBeEquivalentTo(new Dictionary<int, TagType>
 			{
-				{0, true},
-				{14, false}
+				{0, TagType.Opening},
+				{14, TagType.Closing}
 			});
 		}
 
@@ -24,12 +24,12 @@ namespace Markdown
 		{
 			var parser = new DoubleUnderscore("__Hello,__ __world__");
 			parser.FillEntries();
-			parser.Entries.ShouldAllBeEquivalentTo(new Dictionary<int, bool>
+			parser.Entries.ShouldAllBeEquivalentTo(new Dictionary<int, TagType>
 			{
-				{0, true},
-				{8, false},
-				{11, true},
-				{18, false}
+				{0, TagType.Opening},
+				{8, TagType.Closing},
+				{11, TagType.Opening},
+				{18, TagType.Closing}
 			});
 		}
 
