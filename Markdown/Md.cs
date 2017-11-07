@@ -1,4 +1,7 @@
-﻿namespace Markdown
+﻿using System.Collections.Generic;
+using System.Linq;
+
+namespace Markdown
 {
 	public class Md
 	{
@@ -18,10 +21,8 @@
 		{
 			// Чтобы двойные подчёркивания не заменялись на теги внутри одинарных,
 			// парсить одинарные нужно ДО двойных
-
-			return markdown.Parse(new SingleUnderscore())
-				.Parse(new DoubleUnderscore())
-				.Parse(new Headers());
+			var parsers = new List<IParsable> {new SingleUnderscore(), new DoubleUnderscore(), new Headers()};
+			return parsers.Aggregate(markdown, (current, parser) => parser.Parse(current));
 		}
 	}
 }

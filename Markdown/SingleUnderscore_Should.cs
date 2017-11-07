@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using FluentAssertions;
 using NUnit.Framework;
 
@@ -37,7 +38,7 @@ namespace Markdown
 		{
 			parser = new SingleUnderscore(markdown);
 			parser.FillEntries();
-			return parser.Entries.Count == 0;
+			return !parser.Entries.Any();
 		}
 
 		[Test]

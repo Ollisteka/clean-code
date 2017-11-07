@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace Markdown
 {
-	internal class Headers : ITransformable
+	internal class Headers : IParsable
 	{
+		private string markdown;
 		public static readonly Dictionary<string, string> OpeningTags = new Dictionary<string, string>
 		{
 			{"</h1>", "<h1>"},
@@ -21,7 +21,6 @@ namespace Markdown
 		private bool correctHeader;
 		private char key;
 
-		private string markdown;
 
 		public Headers()
 		{
@@ -32,18 +31,17 @@ namespace Markdown
 			this.markdown = markdown;
 		}
 
-		public void SetMarkdown(string markdownValue)
+		public string Parse(string markdown)
 		{
-			if (markdown is null)
-				markdown = markdownValue;
-			else
-				throw new Exception("The markdownValue value was set in constructor!");
+			this.markdown = markdown;
+			FillEntries();
+			return Transform();
 		}
 
 		public void FillEntries()
 		{
 			correctHeader = markdown.All(symbol => symbol == '=')
-			                || markdown.All(symbol => symbol == '-');
+							|| markdown.All(symbol => symbol == '-');
 			key = markdown[0];
 		}
 
