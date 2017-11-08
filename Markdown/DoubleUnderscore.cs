@@ -53,8 +53,9 @@ namespace Markdown
 
 		private void CheckForDoubleUnderscoresInsideSingle()
 		{
-			var openingTag = "<em>"; //SingleUnderscore.Tags[TagType.Opening];
-			var closingTag = "</em>"; //SingleUnderscore.Tags[TagType.Closing];
+			var singleUnderscores = new SingleUnderscore();
+			var openingTag = singleUnderscores.Tags[TagType.Opening];
+			var closingTag = singleUnderscores.Tags[TagType.Closing];
 			var regexp = new Regex(openingTag + ".*" + closingTag);
 			var results = regexp.Matches(Markdown);
 			if (results.Count == 0)

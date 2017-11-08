@@ -7,6 +7,8 @@ namespace Markdown
 	public abstract class DefaultParser
 	{
 		protected string Markdown;
+
+		private int offset;
 		protected string SpecialSymbol;
 
 		protected DefaultParser(string markdown, string specialSymbol)
@@ -27,26 +29,21 @@ namespace Markdown
 
 		public abstract Dictionary<TagType, string> Tags { get; }
 
-		public virtual void FillEntries()
-		{
-		}
+		public abstract void FillEntries();
 
-		private int offset;
 		public virtual string Transform()
 		{
 			var result = new StringBuilder(Markdown);
-			if (Screens.Any())
-				if (Screens.First() <= Entries.Keys.FirstOrDefault())
-				{
-					DeleteScreens(result);
-					ReplaceTags(result);
-				}
-				else
-				{
-					ReplaceTags(result);
-					DeleteScreens(result);
-				}
-			else ReplaceTags(result);
+			if (Screens.FirstOrDefault() < Entries.Keys.FirstOrDefault())
+			{
+				DeleteScreens(result);
+				ReplaceTags(result);
+			}
+			else
+			{
+				ReplaceTags(result);
+				DeleteScreens(result);
+			}
 			return result.ToString();
 		}
 
