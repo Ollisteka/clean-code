@@ -13,9 +13,6 @@ namespace Markdown
 		{
 		}
 
-		public override Dictionary<int, TagType> Entries { get; } = new Dictionary<int, TagType>();
-		public override List<int> Screens { get; } = new List<int>();
-
 		public override Dictionary<TagType, string> Tags { get; } = new Dictionary<TagType, string>
 		{
 			{TagType.Opening, "<em>"},

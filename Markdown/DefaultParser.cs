@@ -21,9 +21,9 @@ namespace Markdown
 		}
 
 
-		public abstract Dictionary<int, TagType> Entries { get; }
+		public Dictionary<int, TagType> Entries { get; } = new Dictionary<int, TagType>()
 
-		public abstract List<int> Screens { get; }
+		public List<int> Screens { get; } = new List<int>()
 
 		public abstract Dictionary<TagType, string> Tags { get; }
 
