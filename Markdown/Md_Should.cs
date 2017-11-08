@@ -31,6 +31,10 @@ namespace Markdown
 			TestName = "Parse single inside double")]
 		[TestCase("_Hello __abc__ world_", ExpectedResult = "<em>Hello __abc__ world</em>",
 			TestName = "Do not parse double inside singler")]
+		[TestCase(@"\_Hello\_ _world_", ExpectedResult = "_Hello_ <em>world</em>",
+			TestName = "Screens before tags")]
+		[TestCase(@"_Hello_ \_world\_", ExpectedResult = "<em>Hello</em> _world_",
+			TestName = "Screens after tags")]
 		public string RenderToHtml(string markdown)
 		{
 			return MdRender.RenderToHtml(markdown);
