@@ -42,9 +42,14 @@ namespace Markdown
 			parser.Screens.ShouldAllBeEquivalentTo(new List<int> {0, 9});
 		}
 
-		[TestCase("__Hello,__ __world__", ExpectedResult = "<strong>Hello,</strong> <strong>world</strong>", TestName = "Two Pairs in a Row")]
-		[TestCase(@"\__Hello,\__ world", ExpectedResult = "__Hello,__ world", TestName = "Screened Underscores")]
-		[TestCase("__Hello, world__", ExpectedResult = "<strong>Hello, world</strong>", TestName = "Correct Underscores")]
+		[TestCase("__Hello,__ __world__", ExpectedResult = "<strong>Hello,</strong> <strong>world</strong>",
+			TestName = "Two Pairs in a Row")]
+		[TestCase(@"\__Hello,\__ world", ExpectedResult = "__Hello,__ world",
+			TestName = "Screened Underscores")]
+		[TestCase("__Hello, world__", ExpectedResult = "<strong>Hello, world</strong>",
+			TestName = "Correct Underscores")]
+		[TestCase("___Hello, world___", ExpectedResult = "<strong>_Hello, world</strong>_",
+			TestName = "Three Underscores")]
 		public string Transform(string markdown)
 		{
 			var parser = new DoubleUnderscore(markdown);
