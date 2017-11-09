@@ -9,17 +9,17 @@ namespace Markdown
 		protected string Markdown;
 
 		private int offset;
-		protected string SpecialSymbol;
+		private readonly string specialSymbol;
 
 		protected ParserBase(string markdown, string specialSymbol)
 		{
 			Markdown = markdown;
-			SpecialSymbol = specialSymbol;
+			this.specialSymbol = specialSymbol;
 		}
 
 		protected ParserBase(string specialSymbol)
 		{
-			SpecialSymbol = specialSymbol;
+			this.specialSymbol = specialSymbol;
 		}
 
 
@@ -31,7 +31,7 @@ namespace Markdown
 
 		public abstract void FillEntries();
 
-		public virtual string Transform()
+		public string Transform()
 		{
 			var result = new StringBuilder(Markdown);
 			if (Screens.FirstOrDefault() < Entries.Keys.FirstOrDefault())
@@ -51,11 +51,11 @@ namespace Markdown
 		{
 			foreach (var entry in Entries)
 			{
-				result.Remove(entry.Key + offset, SpecialSymbol.Length);
+				result.Remove(entry.Key + offset, specialSymbol.Length);
 				result.Insert(entry.Key + offset, Tags[entry.Value]);
 				if (entry.Value == TagType.Opening)
-					offset += Tags[TagType.Opening].Length - SpecialSymbol.Length;
-				else offset += Tags[TagType.Closing].Length - SpecialSymbol.Length;
+					offset += Tags[TagType.Opening].Length - specialSymbol.Length;
+				else offset += Tags[TagType.Closing].Length - specialSymbol.Length;
 			}
 		}
 
