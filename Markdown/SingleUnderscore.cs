@@ -61,7 +61,7 @@ namespace Markdown
 					}
 				}
 				Entries.Add(i, opening);
-				opening = (TagType) ((int) (opening + 1) % 2);
+				opening = opening.Invert();
 			}
 			if (Entries.Count % 2 != 0)
 				Entries.Remove(Entries.Keys.Max());

@@ -39,7 +39,7 @@ namespace Markdown
 				}
 				if (i + 1 >= Markdown.Length || Markdown[i] != '_' || Markdown[i + 1] != '_') continue;
 				Entries.Add(i, opening);
-				opening = (TagType) ((int) (opening + 1) % 2);
+				opening = opening.Invert();
 				i += 1;
 			}
 			if (Entries.Count % 2 != 0)
