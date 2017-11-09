@@ -52,6 +52,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AllTags.cs" />
     <Compile Include="ParserBase.cs" />
     <Compile Include="DoubleUnderscore.cs" />
     <Compile Include="DoubleUnderscore_Should.cs" />

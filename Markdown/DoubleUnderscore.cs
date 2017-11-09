@@ -14,11 +14,7 @@ namespace Markdown
 		{
 		}
 
-		public override Dictionary<TagType, string> Tags { get; } = new Dictionary<TagType, string>
-		{
-			{TagType.Opening, "<strong>"},
-			{TagType.Closing, "</strong>"}
-		};
+		public override Dictionary<TagType, string> Tags => AllTags.DoubleUnderscores;
 
 		public string Parse(string markdown)
 		{
@@ -53,9 +49,8 @@ namespace Markdown
 
 		private void CheckForDoubleUnderscoresInsideSingle()
 		{
-			var singleUnderscores = new SingleUnderscore();
-			var openingTag = singleUnderscores.Tags[TagType.Opening];
-			var closingTag = singleUnderscores.Tags[TagType.Closing];
+			var openingTag = AllTags.SingleUnderscore[TagType.Opening];
+			var closingTag = AllTags.SingleUnderscore[TagType.Closing];
 			var regexp = new Regex(openingTag + ".*" + closingTag);
 			var results = regexp.Matches(Markdown);
 			if (results.Count == 0)

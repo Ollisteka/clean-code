@@ -13,11 +13,7 @@ namespace Markdown
 		{
 		}
 
-		public override Dictionary<TagType, string> Tags { get; } = new Dictionary<TagType, string>
-		{
-			{TagType.Opening, "<em>"},
-			{TagType.Closing, "</em>"}
-		};
+		public override Dictionary<TagType, string> Tags => AllTags.SingleUnderscore;
 
 		public string Parse(string markdown)
 		{
