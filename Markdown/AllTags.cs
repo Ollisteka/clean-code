@@ -18,5 +18,10 @@ namespace Markdown
 			{TagType.Opening, "<em>"},
 			{TagType.Closing, "</em>"}
 		};
+		public static Dictionary<TagType, string> BacktickQuotes { get; } = new Dictionary<TagType, string>
+		{
+			{TagType.Opening, "<code>"},
+			{TagType.Closing, "</code>"}
+		};
 	}
 }

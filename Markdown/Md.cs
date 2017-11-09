@@ -21,9 +21,13 @@ namespace Markdown
 
 		private static string ParseLine(string markdown)
 		{
+			// Первым всегда должен идти парсер BactickQuotes
 			// Чтобы двойные подчёркивания не заменялись на теги внутри одинарных,
 			// парсить одинарные нужно ДО двойных
-			var parsers = new List<IParsable> {new SingleUnderscore(), new DoubleUnderscore(), new Headers()};
+			var parsers = new List<IParsable>
+			{
+				new BacktickQuotes(), new SingleUnderscore(), new DoubleUnderscore(), new Headers()
+			};
 			return parsers.Aggregate(markdown, (current, parser) => parser.Parse(current));
 		}
 	}

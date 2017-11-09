@@ -33,8 +33,16 @@ namespace Markdown
 			TestName = "Do not parse double inside singler")]
 		[TestCase(@"\_Hello\_ _world_", ExpectedResult = "_Hello_ <em>world</em>",
 			TestName = "Screens before tags")]
-		[TestCase(@"_Hello_ \_world\_", ExpectedResult = "<em>Hello</em> _world_",
-			TestName = "Screens after tags")]
+		[TestCase("___Hello, world___", ExpectedResult = "<strong><em>Hello, world</strong></em>",
+			TestName = "Three Underscores")]
+		[TestCase("`__Hello, world__`", ExpectedResult = "<code>__Hello, world__</code>",
+			TestName = "Backtick Quotes with double underscores")]
+		[TestCase("`_Hello, world_`", ExpectedResult = "<code>_Hello, world_</code>",
+			TestName = "Backtick Quotes with single underscores")]
+		[TestCase(@"`Hello __abc__ _world_`", ExpectedResult = @"<code>Hello __abc__ _world_</code>",
+			TestName = "Double and single underscore inside Backtick Quotes")]
+		[TestCase(@"`Hello _abc_ __world__`", ExpectedResult = @"<code>Hello _abc_ __world__</code>",
+			TestName = "Single and double underscore inside Backtick Quotes")]
 		public string RenderToHtml(string markdown)
 		{
 			return MdRender.RenderToHtml(markdown);
