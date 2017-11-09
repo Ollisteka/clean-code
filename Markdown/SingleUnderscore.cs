@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace Markdown
 {
-	public class SingleUnderscore : DefaultParser, IParsable
+	public class SingleUnderscore : ParserBase, IParsable
 	{
 		public SingleUnderscore(string markdown) : base(markdown, "_")
 		{

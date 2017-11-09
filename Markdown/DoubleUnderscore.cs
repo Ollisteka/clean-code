@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 
 namespace Markdown
 {
-	internal class DoubleUnderscore : DefaultParser, IParsable
+	internal class DoubleUnderscore : ParserBase, IParsable
 	{
 		public DoubleUnderscore(string markdown) : base(markdown, "__")
 		{

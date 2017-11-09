@@ -4,20 +4,20 @@ using System.Text;
 
 namespace Markdown
 {
-	public abstract class DefaultParser
+	public abstract class ParserBase
 	{
 		protected string Markdown;
 
 		private int offset;
 		protected string SpecialSymbol;
 
-		protected DefaultParser(string markdown, string specialSymbol)
+		protected ParserBase(string markdown, string specialSymbol)
 		{
 			Markdown = markdown;
 			SpecialSymbol = specialSymbol;
 		}
 
-		protected DefaultParser(string specialSymbol)
+		protected ParserBase(string specialSymbol)
 		{
 			SpecialSymbol = specialSymbol;
 		}
