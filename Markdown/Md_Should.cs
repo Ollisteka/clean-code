@@ -30,11 +30,13 @@ namespace Markdown
 		[TestCase("__Hello _abc_ world__", ExpectedResult = "<strong>Hello <em>abc</em> world</strong>",
 			TestName = "Parse single inside double")]
 		[TestCase("_Hello __abc__ world_", ExpectedResult = "<em>Hello __abc__ world</em>",
-			TestName = "Do not parse double inside singler")]
+			TestName = "Do not parse double inside single")]
 		[TestCase(@"\_Hello\_ _world_", ExpectedResult = "_Hello_ <em>world</em>",
 			TestName = "Screens before tags")]
 		[TestCase("___Hello, world___", ExpectedResult = "<strong><em>Hello, world</strong></em>",
 			TestName = "Three Underscores")]
+		[TestCase("____Hello, world____", ExpectedResult = "<strong><strong>Hello, world</strong></strong>",
+			TestName = "Four Underscores")]
 		[TestCase("`__Hello, world__`", ExpectedResult = "<code>__Hello, world__</code>",
 			TestName = "Backtick Quotes with double underscores")]
 		[TestCase("`_Hello, world_`", ExpectedResult = "<code>_Hello, world_</code>",

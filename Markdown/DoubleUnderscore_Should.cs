@@ -34,6 +34,20 @@ namespace Markdown
 		}
 
 		[Test]
+		public void CountFourUnderscores()
+		{
+			var parser = new DoubleUnderscore("____Hello, world____");
+			parser.FillEntries();
+			parser.Entries.ShouldBeEquivalentTo(new Dictionary<int, TagType>
+			{
+				{0, TagType.Opening},
+				{2, TagType.Opening},
+				{16, TagType.Closing},
+				{18, TagType.Closing}
+			});
+		}
+
+		[Test]
 		public void DoNotCountScreenedUnderscores()
 		{
 			var parser = new DoubleUnderscore(@"\__Hello,\__ world");
