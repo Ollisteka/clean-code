@@ -13,8 +13,6 @@ namespace Markdown
 		{
 		}
 
-		public override Dictionary<TagType, string> Tags => AllTags.SingleUnderscore;
-
 		public string Parse(string markdown)
 		{
 			Markdown = markdown;

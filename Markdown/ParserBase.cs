@@ -6,10 +6,36 @@ namespace Markdown
 {
 	public abstract class ParserBase
 	{
+		public static Dictionary<string, Dictionary<TagType, string>> ParserTags =
+			new Dictionary<string, Dictionary<TagType, string>>
+			{
+				{
+					"__", new Dictionary<TagType, string>
+					{
+						{TagType.Opening, "<strong>"},
+						{TagType.Closing, "</strong>"}
+					}
+				},
+				{
+					"_", new Dictionary<TagType, string>
+					{
+						{TagType.Opening, "<em>"},
+						{TagType.Closing, "</em>"}
+					}
+				},
+				{
+					"`", new Dictionary<TagType, string>
+					{
+						{TagType.Opening, "<code>"},
+						{TagType.Closing, "</code>"}
+					}
+				}
+			};
+
+		private readonly string specialSymbol;
 		protected string Markdown;
 
 		private int offset;
-		private readonly string specialSymbol;
 
 		protected ParserBase(string markdown, string specialSymbol)
 		{
@@ -26,8 +52,6 @@ namespace Markdown
 		public Dictionary<int, TagType> Entries { get; } = new Dictionary<int, TagType>();
 
 		public List<int> Screens { get; } = new List<int>();
-
-		public abstract Dictionary<TagType, string> Tags { get; }
 
 		public abstract void FillEntries();
 
@@ -49,13 +73,14 @@ namespace Markdown
 
 		private void ReplaceTags(StringBuilder result)
 		{
+			var tags = ParserTags[specialSymbol];
 			foreach (var entry in Entries)
 			{
 				result.Remove(entry.Key + offset, specialSymbol.Length);
-				result.Insert(entry.Key + offset, Tags[entry.Value]);
+				result.Insert(entry.Key + offset, tags[entry.Value]);
 				if (entry.Value == TagType.Opening)
-					offset += Tags[TagType.Opening].Length - specialSymbol.Length;
-				else offset += Tags[TagType.Closing].Length - specialSymbol.Length;
+					offset += tags[TagType.Opening].Length - specialSymbol.Length;
+				else offset += tags[TagType.Closing].Length - specialSymbol.Length;
 			}
 		}
 

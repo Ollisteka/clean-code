@@ -20,7 +20,6 @@ namespace Markdown
 		}
 
 		private bool insideTagsScreened = false;
-		public override Dictionary<TagType, string> Tags => AllTags.BacktickQuotes;
 		public override void FillEntries()
 		{
 			var opening = TagType.Opening;
