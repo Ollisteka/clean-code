@@ -6,8 +6,8 @@ namespace Markdown
 {
 	public abstract class ParserBase
 	{
-		public static Dictionary<string, Dictionary<TagType, string>> ParserTags =
-			new Dictionary<string, Dictionary<TagType, string>>
+		public static readonly IReadOnlyDictionary<string, IReadOnlyDictionary<TagType, string>> ParserTags =
+			new Dictionary<string, IReadOnlyDictionary<TagType, string>>
 			{
 				{
 					"__", new Dictionary<TagType, string>
