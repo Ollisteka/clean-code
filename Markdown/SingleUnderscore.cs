@@ -34,7 +34,7 @@ namespace Markdown
 					continue;
 				}
 				// check for screened underscores
-				if (i >= 1 && Markdown[i - 1] == '\\' &&((i+1<Markdown.Length && Markdown[i+1]!='_') || i==Markdown.Length-1))
+				if (i >= 1 && Markdown[i - 1] == '\\')
 				{
 					Screens.Add(i - 1);
 					continue;
