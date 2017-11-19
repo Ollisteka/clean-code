@@ -1,16 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace Markdown
 {
-	class BacktickQuotes : ParserBase, IParsable
+	internal class BacktickQuotes : ParserBase, IParsable
 	{
-		private readonly List<string> allSpecialSymbols = new List<string>{"_", "__"};
+		private readonly IEnumerable<string> allSpecialSymbols = ParserTags.Keys.Where(symbol => symbol != "`");
+
+		private bool insideTagsScreened;
+
 		public BacktickQuotes(string markdown) : base(markdown, "`")
 		{
 		}
@@ -19,18 +19,24 @@ namespace Markdown
 		{
 		}
 
-		private bool insideTagsScreened = false;
+		public string Parse(string markdown)
+		{
+			Markdown = markdown;
+			FillEntries();
+			return Transform();
+		}
+
 		public override void FillEntries()
 		{
 			var opening = TagType.Opening;
 			for (var i = 0; i < Markdown.Length; i++)
 			{
-				if (Markdown[i]!='`')
+				if (Markdown[i] != '`')
 					continue;
 				//check for screened quotes
 				if (i >= 1 && Markdown[i - 1] == '\\')
 				{
-					Screens.Add(i-1);
+					Screens.Add(i - 1);
 					continue;
 				}
 				Entries.Add(i, opening);
@@ -64,13 +70,6 @@ namespace Markdown
 			Markdown = finalString.ToString();
 			insideTagsScreened = true;
 			FillEntries();
-		}
-
-		public string Parse(string markdown)
-		{
-			Markdown = markdown;
-			FillEntries();
-			return Transform();
 		}
 	}
 }

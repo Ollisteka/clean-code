@@ -26,9 +26,9 @@ namespace Markdown
 			for (var i = 0; i < Markdown.Length; i += 1)
 			{
 				if (i + 2 < Markdown.Length
-				    && Markdown[i] == '\\'
-				    && Markdown[i + 1] == '_'
-				    && Markdown[i + 2] == '_')
+					&& Markdown[i] == '\\'
+					&& Markdown[i + 1] == '_'
+					&& Markdown[i + 2] == '_')
 				{
 					Screens.Add(i);
 					i += 2;

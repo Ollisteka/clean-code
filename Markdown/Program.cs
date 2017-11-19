@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using System.Text;
 
 namespace Markdown
 {
@@ -12,20 +11,12 @@ namespace Markdown
 			if (!args.Any())
 			{
 				Console.WriteLine("Please, specify input file path!\n" +
-				                  "You can also specify output file as a second argument");
+								"You can also specify output file as a second argument");
 				Environment.Exit(0);
 			}
-			var filepath = args[0];
-			var f = new FileInfo(filepath);
-			var markdown = new StringBuilder();
-			using (var reader = new StreamReader(f.FullName))
-			{
-				string line;
-				while ((line = reader.ReadLine()) != null)
-					markdown.Append(line + "\n");
-			}
+			var filepath = new FileInfo(args[0]);
 			var renderer = new Md();
-			var result = renderer.RenderToHtml(markdown.ToString());
+			var result = renderer.RenderToHtml(File.ReadAllText(filepath.FullName));
 			if (args.Length == 1)
 				Console.Write(result);
 			else
